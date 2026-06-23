@@ -49,15 +49,28 @@ void planNext() {
   }
 }
 
-// ---- BOOT button: short press = arm/disarm, long press = panic disarm ----
+// ---- BOOT button: 1x = arm/disarm, 2x = dim, 3x = screen off/on, long = panic disarm ----
 void pollButton() {
   static bool prev = HIGH; static uint32_t downAt = 0; static bool longHandled = false;
+  static int clickCount = 0; static uint32_t firstClickAt = 0;
   bool now = digitalRead(PIN_BTN_BOOT);
   if (prev == HIGH && now == LOW) { downAt = millis(); longHandled = false; }
   else if (prev == LOW && now == LOW) {
     if (!longHandled && (millis() - downAt) >= LONGPRESS_MS) { armed = false; longHandled = true; }
   } else if (prev == LOW && now == HIGH) {
-    if (!longHandled && (millis() - downAt) >= 40) { armed = !armed; if (armed) scheduleNext(); }
+    if (!longHandled && (millis() - downAt) >= 40) {
+      if (clickCount == 0 || (millis() - firstClickAt) > TRIPLE_CLICK_MS) firstClickAt = millis();
+      clickCount++;
+    }
+  }
+  // Expire click window — act on the count
+  if (clickCount > 0 && (millis() - firstClickAt) > TRIPLE_CLICK_MS) {
+    switch (clickCount) {
+      case 1: armed = !armed; if (armed) scheduleNext(); break;
+      case 2: toggleDim();   break;
+      case 3: toggleScreen(); break;
+    }
+    clickCount = 0;
   }
   prev = now;
 }

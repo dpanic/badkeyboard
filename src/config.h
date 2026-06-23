@@ -15,7 +15,7 @@ static const int SCR_W = 240, SCR_H = 135;
 enum State { ST_ARMED, ST_DISARMED, ST_TYPING };
 
 // ---- Boot message ----
-static const char *BOOT_MESSAGE = "UKLJUCIO SAM SE";
+static const char *BOOT_MESSAGE = ":)";
 
 // ---- Phase 1: short "glitch" tokens (ASCII; type directly) ----
 static const char *GLITCH[] = {
@@ -53,6 +53,7 @@ static const uint32_t SETTLE_MS  = 2500;              // USB enumeration settle
 static const uint16_t KEY_MIN_MS = 40, KEY_MAX_MS = 120;  // per-character jitter
 static const bool     PRESS_ENTER_AFTER = false;      // Enter after each phrase (phase 2)?
 static const uint32_t LONGPRESS_MS = 1200;            // BOOT long-press = panic disarm
+static const uint32_t TRIPLE_CLICK_MS = 600;          // 3 clicks within this window = dim toggle
 
 // ---- Utility ----
 static inline uint32_t randInRange(uint32_t lo, uint32_t hi) {

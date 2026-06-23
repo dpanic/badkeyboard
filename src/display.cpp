@@ -3,6 +3,17 @@
 #include "display.h"
 
 LGFX tft;
+static bool screenOff = false;
+
+void toggleDim() {
+  if (screenOff) return;  // dim only makes sense when screen is on
+  tft.setBrightness(tft.getBrightness() > 20 ? 10 : 255);
+}
+
+void toggleScreen() {
+  screenOff = !screenOff;
+  tft.setBrightness(screenOff ? 0 : 255);
+}
 
 // ---- Header (drawn once at boot) ----
 void drawHeader() {
@@ -87,7 +98,8 @@ void drawDynamic(State st, bool force, bool armed,
     lastCnt = typedCount;
   }
   tft.setTextColor(TFT_DARKGREY, TFT_BLACK); tft.setTextSize(1);
-  tft.setCursor(4, 122); tft.print(armed ? "BOOT=off  hold=panic " : "BOOT=arm            ");
+  tft.setCursor(4, 122); tft.print(armed ? "BOOT=off hold=panic " : "BOOT=arm            ");
+  tft.setCursor(SCR_W - 68, 122); tft.print("2x dim 3x off");
 }
 
 void showCurrentNext(const String &currentText, const String &nextText) {

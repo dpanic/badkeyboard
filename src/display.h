@@ -42,3 +42,5 @@ void drawDynamic(State st, bool force, bool armed,
                  uint32_t nextFireAt, uint32_t intervalStart,
                  uint32_t typedCount, bool phase2);
 void showCurrentNext(const String &currentText, const String &nextText);
+void toggleDim();
+void toggleScreen();

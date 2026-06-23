@@ -1,0 +1,9 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://inbound.lan:4000",
+    "ANTHROPIC_AUTH_TOKEN": "sk-25671d692ae94a64828c2378d96d4b5b3c0c14a9591dbcfc",
+    "ANTHROPIC_MODEL": "glm",
+    "ANTHROPIC_SMALL_FAST_MODEL": "glm",
+    "API_TIMEOUT_MS": "600000"
+  }
+}
